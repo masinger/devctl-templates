@@ -1,0 +1,49 @@
+resource "helm_release" "mongodb" {
+  name = var.deployment_name
+  repository = "https://charts.bitnami.com/bitnami"
+  chart = "mongodb"
+  namespace = var.k8s_namespace
+  wait = true
+  dependency_update = true
+
+
+  set {
+    name = "persistence.existingClaim"
+    value = kubernetes_persistent_volume_claim.db_volume.metadata[0].name
+  }
+  set {
+    name = "metrics.enabled"
+    value = tostring(var.enable_metrics)
+  }
+
+  set {
+    name = "auth.rootPassword"
+    value = local.effective_root_password
+  }
+
+  dynamic "set" {
+    for_each = local.create_custom_user ?  { user = var.custom_user_username } : {}
+    content {
+      name = "auth.username"
+      value = set.value
+    }
+  }
+
+
+  dynamic "set_sensitive" {
+    for_each = local.create_custom_user ?  { user = local.effective_custom_user_password } : {}
+    content {
+      name = "auth.password"
+      value = set_sensitive.value
+    }
+  }
+
+  dynamic "set" {
+    for_each = local.create_custom_db ? { db = var.custom_user_database } : {}
+    content {
+      name = "auth.database"
+      value = set.value
+    }
+  }
+
+}

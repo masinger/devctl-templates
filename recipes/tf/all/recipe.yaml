@@ -1,0 +1,5 @@
+name: tf/all
+directory: infrastructure
+recipes:
+- recipe: tf/k8s/modules
+  directory: modules

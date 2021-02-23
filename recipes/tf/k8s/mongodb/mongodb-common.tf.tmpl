@@ -1,0 +1,6 @@
+locals {
+  effective_root_password = coalesce(var.root_password, random_password.random_root_password.result)
+  effective_custom_user_password = coalesce(var.custom_user_password, random_password.random_user_password.result)
+  create_custom_user = var.custom_user_username != null
+  create_custom_db = var.custom_user_database != null
+}

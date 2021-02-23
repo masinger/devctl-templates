@@ -1,0 +1,9 @@
+name: project/default
+inputs:
+- name: enableFrontend
+  label: Do you want your project to include a frontend
+  bool: {}
+recipes:
+- recipe: project/frontend/all
+  directory: webapp
+  include: '{{ .inputs.enableFrontend }}'

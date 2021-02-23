@@ -1,0 +1,16 @@
+name: tf/k8s/modules
+directory: 'modules'
+recipes:
+  - recipe: tf/k8s/mongodb
+    directory: mongodb
+    include: '{{ .inputs.deployMongo }}'
+  - recipe: tf/k8s/postgres
+    directory: postgres
+    include: '{{ .inputs.deployPostgres }}'
+inputs:
+  - name: deployPostgres
+    label: Deploy a PostgreSQL
+    bool: {}
+  - name: deployMongo
+    label: Deploy a MongoDB
+    bool: {}

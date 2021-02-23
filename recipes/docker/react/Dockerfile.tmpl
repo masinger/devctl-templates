@@ -1,0 +1,11 @@
+{{if eq .enableBuild "true"}}FROM node:{{ .nodeVersion }}-{{ .nodeDistro }} AS build
+WORKDIR /app
+COPY {{ .root }} .
+RUN npm install
+RUN npm run build
+
+{{end}}FROM nginx:1.19.4 AS runtime
+COPY {{if eq .createNginxConfig "true"}}nginx.conf{{else}}{{ .nginxPath }}{{end}} /etc/nginx/nginx.conf
+
+WORKDIR /usr/share/nginx/html
+COPY {{if eq .enableBuild "true"}}--from=build /build/build{{else}}{{.root}}/build{{end}} .

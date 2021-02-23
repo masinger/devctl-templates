@@ -1,0 +1,10 @@
+name: project/frontend/all
+inputs:
+- name: frontendType
+  label: What frontend technology do you want to use
+  select:
+    options:
+    - label: React
+recipes:
+- recipe: project/frontend/react
+  include: '{{ eq .inputs.frontendType "React" }}'

@@ -1,0 +1,39 @@
+recipes:
+- identifier: docker/react
+  name: docker/react
+  description: ""
+  private: false
+- identifier: misc/static-nginx
+  name: misc/static-nginx
+  description: ""
+  private: false
+- identifier: project/default
+  name: project/default
+  description: ""
+  private: false
+- identifier: project/frontend/all
+  name: project/frontend/all
+  description: ""
+  private: false
+- identifier: project/frontend/react
+  name: project/frontend/yaml
+  description: ""
+  private: false
+- identifier: tf/all
+  name: tf/all
+  description: ""
+  private: false
+- identifier: tf/k8s/modules
+  name: tf/k8s/modules
+  description: ""
+  private: false
+- identifier: tf/k8s/mongodb
+  name: MongoDB Terraform scripts for Kubernetes
+  description: Creates a Terraform module deploying a standalone MongoDB instance
+    to a Kubernetes cluster.
+  private: false
+- identifier: tf/k8s/postgres
+  name: Postgres Terraform scripts for Kubernetes
+  description: Creates a Terraform module deploying a standalone Postgres instance
+    to a Kubernetes cluster.
+  private: false

@@ -1,0 +1,17 @@
+name: Postgres Terraform scripts for Kubernetes
+description: Creates a Terraform module deploying a standalone Postgres instance to a Kubernetes cluster.
+directory: postgres
+functionalities:
+  - postgres
+  - db
+environments:
+  - k8s
+inputs:
+- name: repository
+  label: Helm Repository
+  string:
+    default: https://charts.bitnami.com/bitnami
+- name: chart
+  label: Helm Chart
+  string:
+    default: postgresql

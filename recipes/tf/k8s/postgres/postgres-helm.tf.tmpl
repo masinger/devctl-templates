@@ -1,0 +1,49 @@
+resource "random_password" "default_admin_password" {
+  length = 25
+}
+
+resource "random_password" "default_user_password" {
+  length = 25
+}
+
+
+locals {
+  admin_password = coalesce(var.admin_user_password, random_password.default_admin_password.result)
+  application_user_password = coalesce(var.application_user_password, random_password.default_user_password.result)
+  application_database = coalesce(var.application_user_database, var.application_user_username)
+}
+
+resource "helm_release" "postgresql" {
+  chart = "{{ .chart }}"
+  repository = "{{ .repository }}"
+  name = var.name
+  namespace = var.k8s_namespace
+
+
+  set {
+    name = "persistence.enabled"
+    value = "true"
+  }
+
+  set {
+    name = "persistence.existingClaim"
+    value = kubernetes_persistent_volume_claim.db_volume.metadata[0].name
+  }
+
+  set {
+    name = "postgresqlPostgresPassword"
+    value = local.admin_password
+  }
+  set {
+    name = "postgresqlUsername"
+    value = var.application_user_username
+  }
+  set {
+    name = "postgresqlPassword"
+    value = local.application_user_password
+  }
+  set {
+    name = "postgresqlDatabase"
+    value = local.application_database
+  }
+}

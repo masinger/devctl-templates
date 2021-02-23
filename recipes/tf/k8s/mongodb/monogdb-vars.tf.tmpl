@@ -1,0 +1,64 @@
+variable "k8s_namespace" {
+  type = string
+  description = "The name of the (preexisting) namespace to deploy to."
+}
+
+variable "deployment_name" {
+  type = string
+  default = "mongodb"
+  description = "The name of the mongodb deployment."
+}
+
+variable "db_pvc_size" {
+  type = number
+  description = "The size (in GiB) of the database volume."
+  default = 5
+}
+
+variable "enable_metrics" {
+  type = bool
+  default = true
+  description = "If true, a prometheus metrics endpoint will be exposed."
+}
+
+variable "root_password" {
+  type = string
+  description = "The password to be used for the root user. If omitted, a random password will be generated."
+  default = null
+}
+
+variable "custom_user_username" {
+  type = string
+  description = "The username of the custom db user to be created."
+  default = null
+}
+
+variable "custom_user_password" {
+  type = string
+  description = "The password of the custom db used to be created. If omitted, a random password will be generated."
+  default = null
+}
+
+variable "custom_user_database" {
+  type = string
+  description = "A custom database to be created during the deployment."
+  default = null
+}
+
+output "host" {
+  value = var.deployment_name
+}
+
+output "application_user_username" {
+  value = local.create_custom_user ? var.custom_user_username : null
+}
+
+output "application_user_password" {
+  value = local.create_custom_user ? local.effective_custom_user_password : null
+  sensitive = true
+}
+
+output "application_user_database" {
+  value = local.create_custom_db ? var.custom_user_database : null
+}
+

@@ -1,0 +1,55 @@
+name: docker/react
+inputs:
+- name: enableBuild
+  label: Where do you want to build the application
+  select:
+    options:
+    - label: Inside the container (multistage, recommended)
+      value: "true"
+    - label: Outside the container
+      value: "false"
+- name: root
+  label: Where is the root of you react application
+  inputLevel: 11
+  string:
+    default: "."
+- name: nodeVersion
+  disabled: '{{ eq .enableBuild "false" }}'
+  label: What node version should be used
+  select:
+    options:
+    - label: 15.8.0
+    - label: 14.15.4
+    - label: 12.20.1
+- name: nodeDistro
+  disabled: '{{ eq .enableBuild "false" }}'
+  label: What distro should be used
+  select:
+    options:
+    - label: Buster
+      value: buster
+    - label: Buster (slim)
+      value: buster-slim
+    - label: Stretch
+      value: Stretch (slim)
+    - label: Alpine 3.12
+      value: alpine3.12
+    - label: Alpine 3.11
+      value: apline3.11
+    - label: Alpine 3.10
+      value: alpine3.10
+- name: createNginxConfig
+  label: What nginx configuration should be used
+  select:
+    options:
+    - label: Create and save the default configuration at 'nginx.conf'
+      value: "true"
+    - label: Let me specify a path to an existing configuration
+      value: "false"
+- name: nginxPath
+  label: Relative path to your 'nginx.conf'
+  disabled: '{{ eq .createNginxConfig "true" }}'
+  string: {}
+recipes:
+- recipe: misc/static-nginx
+  include: '{{ eq .inputs.createNginxConfig "true" }}'

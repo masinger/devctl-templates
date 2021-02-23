@@ -1,0 +1,8 @@
+name: MongoDB Terraform scripts for Kubernetes
+description: Creates a Terraform module deploying a standalone MongoDB instance to a Kubernetes cluster.
+directory: mongodb
+functionalities:
+  - mongodb
+  - db
+environments:
+  - k8s

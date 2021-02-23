@@ -1,0 +1,31 @@
+name: project/frontend/yaml
+inputs:
+- name: enableDocker
+  label: Do you want to add a Dockerfile for your React application
+  bool: {}
+tools:
+- name: nodejs
+  displayTitle: Node.js
+  tests:
+  - cmd: node
+    args:
+      - '-v'
+- name: helm
+  displayTitle: Helm
+  tests:
+  - cmd: helm
+    args:
+    - version
+recipes:
+- recipe: docker/react
+  include: '{{ .inputs.enableDocker }}'
+steps:
+- label: Create react app
+  tool:
+    name: node
+    cmd: npx
+    args:
+    - create-react-app
+    - "."
+    - "--template"
+    - typescript

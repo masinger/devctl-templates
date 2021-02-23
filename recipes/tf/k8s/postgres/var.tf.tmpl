@@ -1,0 +1,74 @@
+variable "k8s_namespace" {
+  type = string
+  description = "The existing namespace in which to deploy to."
+}
+
+variable "name" {
+  type = string
+  description = "The name of the postgresql deployment."
+}
+
+variable "storage_size_in_gb" {
+  type = number
+  description = "The desired data storage size in GiB."
+}
+
+variable "application_user_username" {
+  type = string
+}
+
+variable "application_user_password" {
+  type = string
+  default = null
+  description = "The application user's password. A random default value will be generated, if omitted."
+}
+
+variable "application_user_database" {
+  type = string
+  default = null
+  description = "The name of the database to create. If this value is empty, the application user's username is used."
+}
+
+variable "admin_user_password" {
+  type = string
+  default = null
+  description = "The admin user's password. A random default value will be generated, if omitted."
+}
+
+output "admin_username" {
+  value = "postgres"
+}
+
+output "admin_password" {
+  value = local.admin_password
+  sensitive = true
+}
+
+output "admin_database" {
+  value = "postgres"
+}
+
+output "application_user_username" {
+  value = var.application_user_username
+}
+
+output "application_user_password" {
+  value = local.application_user_password
+  sensitive = true
+}
+
+output "application_user_database" {
+  value = local.application_database
+}
+
+output "db_hostname" {
+  value = "${var.name}-postgresql"
+}
+
+output "db_port" {
+  value = 5432
+}
+
+output "jdbc_url" {
+  value = "jdbc:postgresql://${var.name}-postgresql:5432/${urlencode(local.application_database)}?user=${urlencode(var.application_user_username)}&password=${urlencode(local.application_user_password)}"
+}
