@@ -19,6 +19,13 @@ tools:
 recipes:
 - recipe: docker/react
   include: '{{ .inputs.enableDocker }}'
+  inputs:
+  - name: root
+    # Set to the cwd as the react root is created by this recipe
+    value: "."
+  - name: createNginxConfig
+    # Set to true, as there can not be an existing NGINX config
+    value: true
 steps:
 - label: Create react app
   tool:
