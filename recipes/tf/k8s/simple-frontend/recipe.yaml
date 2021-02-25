@@ -16,5 +16,6 @@ inputs:
     - label: yes
     - label: no
 - name: healthCheckPath
+  disabled: '{{ eq .healthCheckAvailable "no" }}'
   label: What is url/path (relative to the hostname, e.g. '/health') of the health endpoint
   string: {}
