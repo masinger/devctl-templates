@@ -37,3 +37,7 @@ recipes:
   description: Creates a Terraform module deploying a standalone Postgres instance
     to a Kubernetes cluster.
   private: false
+- identifier: tf/k8s/simple-frontend
+  name: tf/k8s/simple-frontend
+  description: Creates the Terraform scripts required to deploy a simple frontend.
+  private: false

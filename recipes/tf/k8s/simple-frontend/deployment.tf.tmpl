@@ -1,0 +1,40 @@
+resource "kubernetes_deployment" "webapp" {
+  metadata {
+    name = "webapp"
+    namespace = var.k8s_namespace
+    labels = local.default_labels
+  }
+  spec {
+    selector {
+      match_labels = local.default_labels
+    }
+    template {
+      metadata {
+        labels = local.default_labels
+      }
+      spec {
+        container {
+          name = "webapp"
+          image = "${var.image_name}:${var.image_tag}"
+          port {
+            container_port = {{ .httpPort }}
+            name = "http"
+            protocol = "TCP"
+          }
+{{if eq .healthCheckAvailable eq "true" }}          liveness_probe {
+            http_get {
+              path = "{{ .healthCheckPath }}"
+              port = "http"
+            }
+          }
+          readiness_probe {
+            http_get {
+              path = "/"
+              port = "http"
+            }
+          }{{end}}
+        }
+      }
+    }
+  }
+}

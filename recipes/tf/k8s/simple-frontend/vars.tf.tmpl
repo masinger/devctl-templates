@@ -1,0 +1,20 @@
+variable "k8s_namespace" {
+  type = string
+  description = "The name of the (preexisting) namespace to deploy to."
+}
+
+variable "image_name" {
+  type = string
+}
+
+variable "image_tag" {
+  type = string
+}
+
+output "service_name" {
+  value = kubernetes_service.webapp.metadata[0].name
+}
+
+output "service_port" {
+  value = "http"
+}

@@ -1,0 +1,20 @@
+name: tf/k8s/simple-frontend
+description: Creates the Terraform scripts required to deploy a simple frontend.
+inputs:
+- name: shortAppName
+  label: What is the short name of your application
+  string: {}
+- name: httpPort
+  label: On what port does your container listen for incoming http traffic
+  inputLevel: 11
+  int:
+    default: 80
+- name: healthCheckAvailable
+  label: Does your container expose an health endpoint
+  select:
+    options:
+    - label: yes
+    - label: no
+- name: healthCheckPath
+  label: What is url/path (relative to the hostname, e.g. '/health') of the health endpoint
+  string: {}

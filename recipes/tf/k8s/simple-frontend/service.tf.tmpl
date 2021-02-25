@@ -1,0 +1,16 @@
+resource "kubernetes_service" "webapp" {
+  metadata {
+    name = "webapp"
+    namespace = var.k8s_namespace
+    labels = local.default_labels
+  }
+  spec {
+    type = "ClusterIP"
+    selector = local.default_labels
+    port {
+      port = 80
+      target_port = "http"
+      name = "http"
+    }
+  }
+}
