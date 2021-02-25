@@ -21,7 +21,8 @@ resource "kubernetes_deployment" "webapp" {
             name = "http"
             protocol = "TCP"
           }
-{{if eq .healthCheckAvailable eq "yes"}}          liveness_probe {
+{{if eq .healthCheckAvailable eq "yes"}}
+          liveness_probe {
             http_get {
               path = "{{ .healthCheckPath }}"
               port = "http"
@@ -32,7 +33,8 @@ resource "kubernetes_deployment" "webapp" {
               path = "/"
               port = "http"
             }
-          }{{end}}
+          }
+{{end}}
         }
       }
     }
