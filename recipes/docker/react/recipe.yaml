@@ -1,5 +1,13 @@
 name: docker/react
 inputs:
+- name: requireDocker
+  label: Do you want to build or run the container on your local system
+  select:
+    options:
+    - label: yes
+      value: "true"
+    - label: no
+      value: "false"
 - name: enableBuild
   label: Where do you want to build the application
   select:
@@ -50,6 +58,14 @@ inputs:
   label: Relative path to your 'nginx.conf'
   disabled: '{{ eq .createNginxConfig "true" }}'
   string: {}
+tools:
+- name: docker
+  include: '{{ eq .inputs.requireDocker "true" }}'
+  displayTitle: Docker
+  tests:
+    - cmd: docker
+  hints:
+    choco: docker-desktop
 recipes:
 - recipe: misc/static-nginx
   include: '{{ eq .inputs.createNginxConfig "true" }}'

@@ -10,12 +10,6 @@ tools:
   - cmd: node
     args:
       - '-v'
-- name: helm
-  displayTitle: Helm
-  tests:
-  - cmd: helm
-    args:
-    - version
 recipes:
 - recipe: docker/react
   include: '{{ .inputs.enableDocker }}'
