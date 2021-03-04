@@ -9,7 +9,13 @@ tools:
   tests:
   - cmd: node
     args:
-      - '-v'
+    - '-v'
+- name: npm
+  displayTitle: NPM
+  tests:
+  - cmd: npm
+    args:
+    - '-v'
 recipes:
 - recipe: docker/react
   include: '{{ .inputs.enableDocker }}'
